@@ -5,13 +5,13 @@ from hashlib import md5
 from base64 import b64encode, b64decode
 import json
 
-host="127.0.0.1"
-port=8080
+host="lp1.eu"
+port=6666
 debug=True
 encoding="UTF-8"
 output_file="data.json"
 log_file = "tracker.log"
-image_file = "img.jpg"
+image_file = "signature.png"
 
 mailApi = Flask(__name__)
 
@@ -58,6 +58,7 @@ def get_token(data):
 @mailApi.route("/image/<id>")
 def get_image(id):
     try:
+        id = id.split(".")[0]
         id = int(b64decode(id).decode(encoding))
         entries = get_data()
         if id < len(entries):
@@ -69,7 +70,7 @@ def get_image(id):
     except ValueError as e:
         if debug:
             print(e)
-    return send_file(image_file)
+    return send_file(image_file, mimetype="image/png")
 
 def main():
     mailApi.run(host=host, port=port, threaded=True, debug=debug)

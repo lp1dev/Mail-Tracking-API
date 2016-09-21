@@ -1,0 +1,19 @@
+#!/usr/bin/python3
+
+import json
+import requests
+from sys import argv
+
+host="lp1.eu"
+port=6666
+
+def main():
+    with open("/tmp/tracker.log", "a+") as f:
+        f.write(json.dumps(argv))
+    token = requests.get("http://%s:%i/token/empty" %(host,port))
+    output = "<a href='http://lp1.eu'><img src='http://lp1.eu:6666/image/%s'/></a>" %token.text
+    print(output)
+    return 0
+
+if __name__ == "__main__":
+    main()
